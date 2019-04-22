@@ -1,0 +1,8 @@
+	\section{Physical Layer Calibration for SDR Systems}
+		\subsection{System Architectures}
+			\rgnote{Present the architecural diagram of a direct-conversion transceiver and where analog impairments give rise to distortion in the signal path. I may just cut this section if time goes short. It's critical hardware development and involved testing of which parts were process or temperature variant, but it also requires a lot of detailed diagrams and explanation that is probably not worth it. Practically, this kind of discussion and information is VERY useful to other system designers and I wish I'd had a thesis-level discussion regarding this material rather than having to figure it out via lengthy trial and error.}
+		\subsection{Calibration Algorithm Design}
+			\rgnote{TODO: expand beyond the brief.}
+			Based on our observations of calibration behavior, we designed a non-volatile database approach to IQ imbalance correction to shorten calibration time and complexity, allowing us to avoid the inclusion of dedicated analog feedback paths in the hardware design.
+			However, \ac{LOFT} calibration varied with time, temperature, and center frequency, requiring on-demand calibration.
+			Therefore, we designed the software driver framework to support on-demand calibration of LOFT components when setting center frequencies and validated our calibration libraries with direct measurement and over-the-air testing.

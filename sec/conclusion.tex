@@ -1,0 +1,52 @@
+
+	In this thesis, we set out to scale the performance of \ac{TVWS} systems in both range and number of spatial streams by designing a hardware platform and circuit-level systems that addressed \ac{SDR} design bottlenecks.
+	Our primary focus was on leveraging multi-user beamforming beyond the limit imposed by the 802.11af standard, designing systems that used spatial diversity to scale network capacity rather than increasing channel bandwith.
+	
+	To that effect, we were concerned with the ability to find and utilize sufficient spatial diversity in sub-GHz UHF bands and so we designed a series of static, mobile, indoor, outdoor, line-of-sight and non-line-of-sight multi-user environmental evaluations utilizing our unique software-defined radio system in real-world environments.
+	Over the course of years and many failed tests later, we were able to make significant improvements to not only our \ac{SDR} system design, but also to the measurement and testing frameworks we developed in order to evaluate multi-user beamforming performance.
+	
+	Our experiments showed that the spatial diversity for \ac{TVWS} frequencies between 470-798~MHz in the tested environments was just as rich as that for higher-frequency \ac{ISM} bands at 2.4 and 5.8~GHz.
+	In addition, we were able to experimentally confirm for the first time that theoretical expectations that temporal characteristics of multi-user \ac{TVWS} networks are extremely favorable, where the channel remain stable and unchanging for long periods of time in static deployments.
+	This mitigates the need for rapid update to \ac{CSI} in large-scale \ac{MUBF} systems, a primary driver of system complexity and protocol overhead, and drove us to propose Opportunistic Channel Estimation to remove \ac{CSI} overhead altogether.
+	We showed that this approach could provide large capacity increases for 802.11af-like systems in deployments where the nodes are static, particularly as the number of \ac{AP} antennas and number of \acp{STA} involved in a multi-user transmission increases.
+	
+	%We scaled our system to 8x8 mubf and demonstrated 802.11af mu-bf operation, but also discovered that there were going to be size, cost, weight, and clocking bottlenecks.
+	%The previous three just demand greater integration, whereas the fourth demanded a re-designed, flexible and distributed coherent clocking mechanism for coherent CoMP.
+
+	The quest to increase the utility of \ac{TVWS} frequency has taken us on a journey across the entire network stack, from physical \ac{PCB} layout to network and protocol design and simulation, addressing system and design challenges at every step of the way.
+	The result is the development and evaluation of the first open-source \ac{MU-MIMO} \ac{SDR} platform developed for \ac{TVWS} systems and the first protocol that aims to eliminate \ac{CSI} overhead estimation in large-scale 802.11-like systems.
+	We have shown that it is possible to construct commercial systems that achieve our goal of enabling unlicensed \ac{TVWS} networks with network throughput comparable to today's 802.11 networks, and at the very large scales enabled by \ac{TVWS} spectrum.
+
+
+%We set off making a flexible agile SDR in order to innovate in mubf and teest real-world operation; we scaled that system to 8x8, testing 802.11af mubf and addressing protocol bottlenecks with our oppoortunistic protocol
+
+
+%we showed that in the environments tested, static nodes are remarkably stable, yielding an incredible opportunity to design new systems that leverage this stability in mobile scenarios; given the day/night different in performance, it's not hard to imagine hybrid systems.
+
+\pagebreak
+
+% Where do we go from here.
+\section{Future Work}
+\label{sec_future_work}
+
+	It is worth asking what the next directions for exploration are, given what we've learned over the past several years of hardware iteration and environmental studies.
+	
+\textbf{Mobility Support for Beamforming.}
+	The primary research directions that we foresee a large amount of future effort to be focused are those areas of cross-layer \ac{MAC} and \ac{PHY} innovation to improve efficiency and manage performance tradeoffs inherent in beamforming to mobile nodes.
+		There is still significant work to be done to support mobility, as we've demonstrated that the usefulness of stale CSI degrades with devices in rapidly changing environments, which is a challenge for scaling these systems in mobile contexts.
+
+\textbf{Coordinated Multi-Point.}
+		In addition, the ability to implement practical \ac{MU-MIMO} systems utilizing \ac{JT}-\ac{CoMP} communications techniques now enables real-world system implementations and trials.
+		We think it is now time for these techniques to move from the theoretical realm to practical implementation, where the ability to mitigate interference and increase network capacity appear to be nearly boundless, but where implementation and engineering challenges are many.
+
+\textbf{Optimization for Real Environments.}
+	While we studied how our \ac{MU-MIMO} system would perform when scaled to $32\times 16$ from a protocol level, we did not have \ac{TVWS} systems that could operate at that scale yet, and therefore relied on simulation assumptions regarding channel characteristics.
+	These assumptions and the conclusions we draw from our simulations will have to be validated or adjusted based on real-world performance data, and we expect a large amount of optimization that may be obtained with more deployment experience across different environments and very large-scale testbeds.
+	
+\textbf{Array Miniaturization.}
+	First, the electronics industry is rapidly evolving in the direction of increased system integration, smaller radios, and increasing the number of antenna elements for more efficient beamforming.
+	The tangible performance benefits of ``Massive'' MIMO are starting to be borne out in commercial pilots led by large cellular vendors.
+	There seem to be many directions to take system architectures and miniaturize or integrate more, less expensive radios to improve market penetration of many-antenna systems.
+	Based on the wealth of positive theoretical and practical results, we view this as a promising direction for increasing wireless network reliability and capacity by orders of magnitude.
+	
+	As radios and system architectures evolve, we expect to see ubiquitous deployment of 802.11ax and 5G radio systems with hundreds of radios and it is our sincere wish that the work we've presented here will assist future system designers.

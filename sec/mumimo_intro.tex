@@ -1,0 +1,26 @@
+% Introduction to TVWS Measurement Campaign
+
+\section{Introduction}
+\label{sec_environment_chapter}
+
+	The switch to more efficient digital broadcast television released hundreds of megahertz of ``beachfront'' radio spectrum in the VHF/UHF frequency band for reassignment (54~MHz to 608~MHz in the United States and 470~MHz to 790~MHz in Europe \cite{fcc2010second, fcc2015ro, ofcom2012tvws}).
+	However, only a limited number of channels are available in some locations and in many cases those channels are expected to be non-contiguous \cite{mishra2009much}.
+
+	As a technique for increasing the spectral efficiency of wireless systems, \acf{MU-MIMO} beamforming promises significant gains that could mitigate the narrow\footnote{We consider the 6~MHz broadcast TV channels to be narrow in comparison with 5~GHz \ac{ISM} 80+80~MHz channels.} \ac{TVWS} channels by transmitting data across multiple spatial streams to multiple clients simultaneously.
+	However, in Section~\ref{sec_mubf_back}, we showed how \ac{MU-MIMO} gains are contingent upon both having access to accurate and timely \ac{CSI} as well as having sufficient spatial diversity in the environment and system architecture to leverage.
+	\ac{MU-MIMO} measurement campaigns at Rice \cite{aryafar2010design, anandpuma} and Lund \cite{kolmonen2010measurement, flordelis2015spatial} Universities have shown that the amount of spatial diversity (or equivalently, the strength of multi-user channel correlation) in 2.4, 2.6, and 5.8~GHz environments is critical for system performance.
+	
+	Since measurement campaigns performed in UHF bands had previously only been point-to-point, we must rely on theoretical extrapolation of existing channel models.
+	State-of-the-art \ac{MU-MIMO} channel models based on empirical measurements have been developed that predict increased channel correlation in lower frequency bands, but are inconclusive with respect to the effect on receiver separability simply because a direct comparison of diverse frequency bands in the same environment had not been attempted \cite{poutanen2011cost, zhu2013cost}.
+	For instance, one might assume that increased propagation through building materials might reduce the amount of multi-path for an indoor environment compared to an 802.11n WLAN \cite{flores2013ieee80211af}.
+	This would have the effect of reducing the ability of a MU-MIMO base station to beamform separate spatial streams to simultaneous users.
+Without a comparative study of different frequency bands in actual physical environments, it is difficult to draw conclusions for UHF MU-MIMO performance from existing work in 802.11n WLANs \cite{aryafar2010design}.
+
+	In this chapter, we close that experimental gap.
+	We first analyze channel availability, coverage, and performance with a measurement study of the first residential \ac{TVWS} deployment in the US.
+	Rather than accept the decreased capacity that comes with smaller channel bandwidths, we instead develop a \ac{MU-MIMO} \ac{TVWS} testbed using the \ac{SDR} platform developed in Chapter~\ref{sec_hw_intro}.
+	We perform a series of measurement campaigns of indoor and outdoor, fixed and mobile channels in a variety of environments.
+	We are uniquely able to perform a comparative study of \ac{ISM}-band 802.11-like operation in \ac{TVWS}, 2.4, and 5.8~GHz band because of the wide tuning range of our agile \ac{SDR} platform.
+
+	We find that while the temporal characteristics of the \ac{TVWS} band are improved, the amount of spatial diversity observed remains equivalent to that of higher frequency bands.
+	This has direct consequences for both the performance of \emph{mobile} \ac{TVWS} systems and the design of wireless systems and protocols that seek to leverage multi-user spatial multiplexing.

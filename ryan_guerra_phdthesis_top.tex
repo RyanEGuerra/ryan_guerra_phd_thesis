@@ -1,0 +1,469 @@
+%\documentclass[12pt]{ruthesis}
+
+% NOTE: these bibentry shenanigans are to workaround a clash between hyperref and bibentry
+% Seriously, wtf: https://tex.stackexchange.com/questions/227933/using-bibentry-to-cite-in-text-reference-with-apacite
+%\RequirePackage{bibentry}
+%\makeatletter\let\saved@bibitem\@bibitem\makeatother
+\documentclass[oneside,12pt]{Ricethesis_PDF}
+%\makeatletter\let\@bibitem\saved@bibitem\makeatother
+\usepackage[]{hyperref}
+%\makeatletter\let\@bibitem\saved@bibitem\makeatother
+
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphics}
+
+% for nice tables
+%\usepackage{graphicx}
+\usepackage{multirow}
+
+\usepackage{epsfig,epsf,rotating}
+\usepackage{subfigure}
+%\usepackage{pictex}
+\usepackage{epsf}
+\usepackage{cite}
+\usepackage{theorem}
+\usepackage{tikz}
+\usepackage{color,soul}
+\definecolor{lightblue}{rgb}{.90,.95,1}
+\sethlcolor{lightblue}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage[printonlyused,withpage]{acronym}
+
+% For formatted tables
+\usepackage{colortbl}
+\usepackage{booktabs}
+
+% For printing code
+\usepackage{listings}
+
+%\usepackage[acronym]{glossaries}
+
+%\usepackage[acronym]{glossaries}
+
+% Fixes the font substitution warning with sfrac
+\usepackage{fix-cm}
+
+\usepackage{epsfig}
+\usepackage{latexsym,psfig,times,epsf,amsmath,amssymb,amsfonts,graphicx}
+%\usepackage[tight,TABTOPCAP]{subfigure}
+\usepackage{psfrag}
+\usepackage{amsfonts}
+\usepackage{paralist}
+\usepackage{threeparttable}
+\usepackage{xfrac}
+\usepackage{xcolor}
+
+\usepackage{array}
+
+\usepackage{cancel}
+\usepackage{bm}
+
+%\textbf{E}stimatio\textbf{N}
+\usepackage{hyphenat}
+\usepackage{xstring}
+\usepackage{forloop}
+
+\usepackage{hyperref}
+\usepackage{bookmark}
+% to get toggle functionality
+\usepackage{etoolbox}
+
+%t to include the signed title page
+\usepackage[final]{pdfpages}
+
+% To print individual bibliography entries
+%\usepackage{natbib}
+%\usepackage{bibentry}
+
+%\hyphenation{sti-matio}
+
+%\usepackage{glossaries}
+%\usepackage[nopostdot,style=super]{glossaries}
+
+
+
+%% ALLOWS ACRO PACKAGE TO SPLIT HYPHENATED ACRONYMS
+\makeatletter
+\renewcommand*\AC@acs[1]{%
+    \expandafter\AC@get\csname fn@#1\endcsname\@firstoftwo{#1}}
+\makeatother
+
+
+% MACROS
+% THESE MUST ERROR OUT
+%\newcommand{ \nm }{PUMA}
+%% PROTOCOL NAME
+%\newcommand{ \longnm }{\textbf{P}re-sounding \textbf{U}ser and \textbf{M}ode selection \textbf{A}lgorithm (\nm )}
+
+
+%% Timeline Width
+\newcommand{ \TLwidNEW }{5.3in}
+\newcommand{ \TLLEGwid }{6.5in-\TLwidNEW}
+
+\newcommand{ \TLwid }{6.8in}
+\newcommand{ \Figwid }{3in}
+%3.32in
+
+
+\newcommand{\shorteq}{\text{=}}
+\newcommand{\shortmin}{\text{-}}
+\newcommand{\shortplus}{\text{+}}
+% Some Definitions...
+\newcommand{ \shtcol }{\text{:}}
+\newcommand{ \ndbps }{$N_{\text{{\tiny DBPS}}}$}
+
+%\newcommand{ \mkeq }[2]{[$M\shorteq #1$,~$K\shorteq #2$]}
+%\newcommand{ \meq }[1]{$M\shorteq#1$ }
+%\newcommand{ \keq }[1]{$K\shorteq#1$ }
+
+
+\newcommand{ \mklt }[2]{[$M\leq#1$,~$K\leq#2$] }
+\newcommand{ \mk }{[$M$,~$K$] }
+
+\newcommand{ \mkeq }[2]{[$M_{#1}$,~$K_{#2}$]}
+\newcommand{ \meq }[1]{$M_{#1}$}
+\newcommand{ \keq }[1]{$K_{#1}$}
+\newcommand{ \beq }[1]{$b\shorteq #1$}
+
+\newcommand{\mmax}{M_{\textit{max}}}
+\newcommand{\kmax}{K_{\textit{max}}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% From FROZEN
+\newcommand{\Hb}{\mathbf{H}}
+\newcommand{\Hup}{\mathbf{H^{UP}}}
+\newcommand{\Hdn}{\mathbf{H^{DN}}}
+\newcommand{\Tb}{\mathbf{T}}
+\newcommand{\Tt}{\mathbf{\tilde{T}}}
+\newcommand{\Rb}{\mathbf{R}}
+\newcommand{\Rt}{\mathbf{\tilde{R}}}
+\newcommand{\SNR}{\text{SNR}}
+\newcommand{\EVM}{\text{EVM}}
+
+% An aesthetically pleasing overline that increases the size of \bar but isn't as horrendously big as \overline.
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+
+%\newcommand{ \mubf }{CE}
+%\newcommand{ \eav }[1]{$\text{E}_{#1}$}
+%\newcommand{ \eran }[2]{$\text{E}_{#1\text{-}#2}$}
+%% Image Width macros
+%% Width of Heat Map Images
+%%1.65 for 4 across
+%\newcommand{ \bwid }{3.5in}
+%% Width for ppt diag img
+%\newcommand{ \pwid }{3in}
+%% Width for bar graphs
+%\newcommand{ \bgwid }{4in}
+%% Width for platform image
+%\newcommand{ \platwid }{4.1in}
+%% Width for DA beampat
+%\newcommand{ \dawid }{4in}
+%% Width for Class Diagram
+%\newcommand{ \cwid }{3.5in}
+
+%% TODO PACKAGE %%
+
+\usepackage{xcolor}
+\usepackage{fixme}
+\fxsetup{
+		status=draft,
+    layout=inline,
+    theme=color,
+    mode=multiuser
+}
+\FXRegisterAuthor{rg}{reg}{\color{red}Ryan}
+\FXRegisterAuthor{ek}{ewk}{\color{orange}Knightly} 
+\FXRegisterAuthor{cs}{cws}{\color{cyan}Clay} 
+
+\newtoggle{isready}
+\togglefalse{isready}
+%\FXRegisterAuthor{x}{xx}{\color{green}PREVTEXT: } 
+
+%\newcommand{ \SRC }[1]{ {\color{cyan} | \srcnote{ #1 }  | \newline} }
+%%%%%%%
+
+%\newcommand{ \xnote }[1] { {\color{green} PREVTEXT: #1} }
+%\newcommand{ \xnote }[1] {  }
+
+\newtheorem{proposition}{Proposition}
+
+\theoremheaderfont{\itshape} {\theoremstyle{break}
+\newtheorem{Fact}{Fact}[chapter]} \theoremstyle{break}
+\newtheorem{Lem}{Lemma}[chapter] \theoremstyle{break}
+\newtheorem{Thm}{Theorem}[chapter] {\theoremstyle{plain}
+  \theorembodyfont{\rmfamily}  \newtheorem{Prf}{Proof}[chapter]}
+{\theoremstyle{plain}
+  \theorembodyfont{\rmfamily}  \newtheorem{Def}{Definition}[chapter]}
+
+
+%% TITLE PAGE
+%\title{MU-MIMO in Diverse Bands and Environments}
+%\ctitle{MU-MIMO in Diverse Bands and Environments}
+%\author{Narendra Anand}
+%\department{Electrical and Computer Engineering}
+%\school{Rice University}
+%\degree{Doctor of Philosophy}
+%
+%\committee {
+        %Edward W. Knightly, \textit{Chair} \\
+        %Professor of Electrical and Computer Engineering and Computer Science \and
+        %Ashutosh Sabharwal\\
+        %Professor of Electrical and Computer Engineering \and
+        %Lin Zhong\\
+        %Associate Professor of Electrical and Computer Engineering \and
+				%David B. Johnson\\
+				%Professor of Computer Science
+%}
+%
+%\address{Houston, Texas}
+%\donemonth{April} \doneyear{2015} \makeindex
+
+
+
+% I always thought it was super-stupid that LaTeX doesn't show pictures in draft mode. This disables draft mode when processing graphics.
+\setkeys{Gin}{draft=false}
+%% Document properties:
+
+% Specify the name of the bibliography.  I like "References"
+\def\bibsecname{References}
+
+%% Author properties: specify who you are, title of thesis, degree and date
+\author{Ryan E. Guerra}
+\title{Large-Scale Software Defined Radio Systems: \protect\\ Design, Implementation, and Evaluation}
+\degree{Doctor of Philosophy}
+\degreedate{May 2019}
+
+% Define the thesis committee, and their positions
+% The comchair appears first, the others appear in order
+\comchair{Dr. \ Edward W. \  Knightly}
+\comchairaffil{Professor of Electrical and Computer Engineering and Computer Science} 
+\comtwo{Dr. Ashutosh Sabharwal}
+\comtwoaffil{Professor of Electrical and Computer Engineering}
+\comthree{Dr. \ Lin Zhong}
+\comthreeaffil{Professor of Electrical and Computer Engineering and Computer Science}
+\comfour{Dr. T.S. Eugene Ng}
+\comfouraffil{Professor of Computer Science and of Electrical and Computer Engineering}
+
+% Uncomment for fifth committee member if required
+%\comfive{Dr. Sim\'{e}on Poisson}
+%\comfiveaffil{Professor of Analysis, \'{E}cole Polytechnique}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% LIST OF SYMBOLS HACKING
+%\usepackage{linegoal}
+\usepackage[style=super,sort=use]{glossaries}
+%\usepackage{glossaries}
+
+
+\renewcommand*\glsdescwidth{5.3in}
+
+\renewcommand*\glspostdescription{\dotfill}
+%\renewcommand*{\glossarypreamble}{\onehalfspacing}
+
+\renewcommand*{\glossarypreamble}{\begin{doublespace}}
+\renewcommand*{\glossarypostamble}{\end{doublespace}}
+
+\makeglossaries
+
+%\include{sec/notation_def}
+
+
+\begin{document}
+
+%\bstctlcite{IEEEexample:BSTcontrol}
+
+
+  %\begin{frontmatter}
+   %\pagenumbering{roman}
+   %%\makecover
+   %\maketitle
+   %\include{sec/abstract}
+   %\include{sec/ack}
+   %\tableofcontents
+   %\listoffigures
+  %% \listoftables
+%%   \include{ded}
+  %\end{frontmatter}
+%\pagenumbering{arabic}
+%
+%\linespacing{1.7}
+
+
+% The first few pages are labeled in Roman numerals
+\begin{romanpages}
+
+% Build the tile page
+%\maketitle
+
+\includepdf[pages=-]{thesis_signature_page_signed.pdf}
+
+% Include Abstract, Acknowledgement, and dedication if required.  It's in another file called "preface.tex"
+
+\doublespacing
+\input{sec/abstract}
+
+\include{sec/ack}
+
+% Set the number of sectioning levels that get numbered and appear in the contents
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+ 
+% I prefer half spacing for lists like this.
+\onehalfspacing
+\tableofcontents
+
+
+%\printglossary[title={List of Symbols}]
+
+
+\listoffigures
+\listoftables
+
+\chapter*{List of Acronyms}
+\input{acronym_definitions}
+
+\bibliographystyle{IEEEtran}
+\chapter*{List of Publications}
+\input{sec/publication_list}
+
+%%%%%%%%%%% ACRO DEFS %%%%%%%%%%%%
+%\printglossary[type=acronym, title={List of Acronyms}] %={List of Acronyms}]
+%\include{acronym_definitions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\chapter*{List of Notation}
+%\printglossary[title=Notation]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% End roman numerals, begin numbering in Arabic starting with the text
+\end{romanpages}
+ 
+\doublespacing
+
+\acresetall
+
+% https://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
+\pdfsuppresswarningpagegroup=1
+
+%###########################################################
+\chapter{Introduction}
+\input{sec/introduction}
+
+%###########################################################
+
+\chapter{Background}
+\label{sec_background_chapter}
+\input{sec/background}
+
+%###########################################################
+\chapter{Architectures for Large-Scale TVWS Systems}
+\label{sec_wurc}
+
+	\input{sec/wurc} % <-- introduction here
+	\input{sec/wurc_synthesis}
+	\input{sec/wurc_agc}
+	%\input{sec/wurc_phy_cal}
+	\input{sec/wurc_control_sw}
+	\input{sec/wurc_array}
+	\input{sec/wurc_argos_array}
+	\input{sec/iris_clocking}
+	
+	\section{Discussion and Conclusion}
+	
+	In this chapter, we designed a new scalable and modular \ac{MU-MIMO} \ac{SDR} platform for \acp{TVWS}, addressing challenging low-layer \ac{PHY} challenges and implemented the first 8x8 \ac{MU-MIMO} measurement platform for 802.11af-like systems.
+	While some of the \ac{PHY} subsystems designed for the \ac{WURC} are highly-specific to the architecture of the hardware itself, most components are designed as generic signal-processing blocks for any \ac{SDR} that contains the minimal amount of hardware capabilities in the generic \ac{SDR} model presented in Section~\ref{sec_sdr_back}.
+	By designing a complete, operational real-time \ac{MU-MIMO} \ac{SDR} system from the ground up, we have provided valuable insight into the potential bottlenecks and proposed future design directions for next-generation \ac{SDR} systems.
+	In addition, we have produced a valuable experimental research platform that both we \cite{guerra2016opportunistic, anand2014case} and others \cite{wei2015acoustic, sur2015bridging, zhang2016watch, tarver2016sub} have used to explore \ac{TVWS} channel dynamics and prototype innovative new systems leveraging \ac{TVWS}.
+	
+	Today, the hardware platform that we designed operates as a system prototype and experimental platform, but future systems are already being designed that leverage our contributions and lessons for 5G wireless systems and commercial applications \cite{shepard2017argosv3}.
+	%What this means is that many SDR systems that lack real-time, full-range random access capabilities using 802.11 standards can now be upgraded with this capability and achieve full.
+	%While a complex digital design, this allows more general purpose SDR hardware to be designed without additional dedicated hardware or \acp{ASIC}.
+
+
+%###########################################################
+\chapter{Environmental Studies of TVWS Systems}
+\label{sec_env_study_chapter}
+
+\input{sec/mumimo_intro}
+\input{sec/channel_sounding_techniques}
+\input{sec/tfa_wardrive}
+\input{sec/uhf_mumimo}
+		
+\input{sec/uhf_mobile}
+
+%####################################################################################
+\chapter{Protocols for Large-Scale TVWS Systems}
+\label{sec_protocols_chapter}
+
+\input{sec/opportunistic}
+
+%####################################################################################
+\chapter{Related Work}
+\label{sec_related_chapter}
+\input{sec/related}
+
+%####################################################################################
+\chapter{Conclusion}
+\label{sec_conclusion_chapter}
+\input{sec/conclusion}
+
+%\input{sec/appendix_pcb_designs}
+%\include{append-a}
+%\appendix
+%\addcontentsline{toc} {chapter}{\numberline {}Appendix A}
+%\include{append-a}
+%\include{append-b}
+
+%\addcontentsline{toc} {chapter}{\numberline {}Bibliography}{}
+%\include{PhD_bibliography}
+
+%\listoffixmes
+
+
+
+
+% Produce the bibliography, and add a contents line for it.  I prefer the IEEE
+% style, you can use your own since Rice doesn't care.  The ``cleardoublepage''
+% is required to guarantee that the bibliography gets the right page number in
+% the contents
+
+%\begin{singlespace}
+%\onehalfspacing
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\bibsecname}
+\renewcommand{\bibname}{\bibsecname}
+%\bibliographystyle{IEEEtran} % NOT NEEDED BECAUSE of DECLARATION IN LIST OF PUBS UP FRONT
+%\bibliography*{bib/bib_def,bib/nsf_sbir,bib/nsf_sttr,bib/thesis,bib/ryan}
+\bibliography{bib/bib-def,bib/nsf-sbir,bib/nsf-sttr,bib/thesis,bib/ryan}
+
+%\bibliography{bib_def,wireless}
+%\end{singlespace}
+
+\appendix
+\input{sec/appendix_console}
+
+\input{sec/appendix_warplab}
+
+
+%Write the document metadata: Your name, the title, etc
+\pdfinfo{
+	/Title  (Large-Scale Software Defined Radio Systems: Design, Implementation, and Evaluation)
+	/Creator (TeX)
+	/Producer (pdfTeX)
+	/Author (Ryan E. Guerra)
+	/CreationDate (D:20181111000000)  %format D:YYYYMMDDhhmmss
+	/ModDate (D:20181111000000)
+	/Subject (PhD Thesis)
+	/Keywords (Rice University, PhD Thesis, WURC, Multi-User Beamforming, Software-Defined Radio, MIMO, Spatial Multiplexing)
+}
+
+
+\end{document}

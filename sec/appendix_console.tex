@@ -1,0 +1,75 @@
+\chapter{WURC Console API}
+\label{sec_wurc_console}
+
+The following commands summarize the high-level \ac{API} provided by the \ac{WURC} on-board firmware via its console interface.
+Each command is a single character followed by an optional operand. A command is stored in a character buffer where it can be edited or deleted until the ENTER keystroke is issued, at which case the console interpreter will attempt to process the command.
+
+Special characters [0, 9] represent calibration tuning commands and are execute instantly without waiting for an ENTER keystoke. 
+
+The host can read back the output console stream to monitor command execution; the string \texttt{wss\$} is printed when a command is finished executing.
+
+\section{WURC Macro Console API}
+
+\begin{singlespace}
+\small
+\begin{verbatim}
+============== WURC Firmware Available Commands ===================
+h : print this help menu
+c <###> : display or edit RF calibration tables
+c : Displaying the Calibration Table
+c <#GGXXYYD> : Edit the Volatile LOFT Calibration
+c <#FFAAAAAAAABBBBBBBBCCCCCCCCD> : Edit the Volatile IQ Calibration
+s : commit volatile RF calibration tables to non-volatile memory
+A : run transceiver initialization sequence
+F : run core LMS DCO calibration sequence (development only)
+C <T##BB> : set channel macro
+x : toggle baseband control of Tx/Rx switching (default = DISABLED)
+i : get WSD serial number (DEPRECATED)
+j : get transceiver info, printed as a JSON string
+r <HH> : read LMS register HH
+w <HHKK> : write KK to LMS register HH
+l : toggle WURC indicator LED
+e : clear WURC error indicator LED
+u : enable/disable automatic calibration value loading (dev only)
+B <kHz> : set receive center frequency
+D <kHz> : set transmit center frequency
+R : toggle LMS6002D soft receive enable
+S : toggle LMS6002D soft transmit enable
+X : reset the transceiver and disable all transmit power amplifiers
+U : set the transceiver into DAC ADC mode (buggy)
+T: toggle RXOUTSW state
+P : print current LOFT DCO values
+E : enable RF loopback mode (development)
+I <T, R, t, r> : set the digital DAC/ADC I/Q polarity or I/Q intlv
+d : perform a configuration register dump (development)
+0, 1, 2, 3, 6, 7, 8, 9 : increment or decrement Tx/Rx I/Q LOFT DCO
+N : set WURC as transmitter on ANT1 (BB ctrl x overrides this)
+M : set WSD as receiver on ANT1 (BB ctrl x overrides this)
+Z : set transceiver mode (development)
+V <0:15> : set transmit baseband LPF bandwidth
+W <0:15> : set receive baseband LPF bandwidth
+y <0/1><#> : set the PLL delay count (development)
+z <0/1> : set Tx Rx switching mode (development)
+n, G, H : Transmit Gain Settings
+n <0:56> : set log-linear transmit gains
+G <0:31> : set transmit TXVGA1 gain (development)
+H <0:25> : set transmit TXVGA2 gain (development)
+J, K, L : Receive Gain Settings
+J <0:120> : set receive RXVGA1 gain (linear)
+K <0:10> : set receive RXVGA2 gain (log-linear)
+L <0:2> : set receive RXLNA gain (log-linear)
+=================================================================
+\end{verbatim}
+\end{singlespace}
+
+
+%\section{WARP MicroBlaze Console API}
+%
+%\begin{singlespace}
+%\small
+%\begin{verbatim}
+%
+%TODO
+%
+%\end{verbatim}
+%\end{singlespace}

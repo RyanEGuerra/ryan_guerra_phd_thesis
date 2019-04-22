@@ -1,0 +1,540 @@
+% Rice University thesis macros
+
+% This file is a modified version of report.sty (report.doc) 26-Apr-88,
+% originally by Leslie Lamport.  The changes were originally implemented by
+% Dave Johnson in the form of a style option.  I have taken the liberty of
+% creating an entirely separate document style, because I feel that is
+% cleaner and really not that hard.
+
+% All this mashing and munging has been done by William LeFebvre of
+% Rice University Computer Science.
+
+% REPORT DOCUMENT STYLE -- Released 26 April 1988
+%    for LaTeX version 2.09
+% Copyright (C) 1988 by Leslie Lamport
+
+\typeout{Document Style `thesis' <19 Apr 89>.}
+
+\def\@ptsize{2}
+\@namedef{ds@10pt}{\def\@ptsize{0}}
+\@namedef{ds@11pt}{\def\@ptsize{1}}
+
+\def\ds@twoside{\@twosidetrue
+ \@mparswitchtrue}
+
+\def\ds@draft{\overfullrule 5pt}
+
+\def\ds@italicproof{\def\@prooffont{\it}}
+
+\def\@prooffont{\bf}
+
+\@options
+
+\input ths1\@ptsize.sty\relax
+
+
+
+\def\labelenumi{\theenumi.}    
+\def\theenumi{\arabic{enumi}}     
+ 
+\def\labelenumii{(\theenumii)}
+\def\theenumii{\alph{enumii}}
+\def\p@enumii{\theenumi}
+
+\def\labelenumiii{\theenumiii.}
+\def\theenumiii{\roman{enumiii}}
+\def\p@enumiii{\theenumi(\theenumii)}
+
+\def\labelenumiv{\theenumiv.}
+\def\theenumiv{\Alph{enumiv}}     
+\def\p@enumiv{\p@enumiii\theenumiii}
+
+\def\labelitemi{$\bullet$}
+\def\labelitemii{\bf --}
+\def\labelitemiii{$\ast$}
+\def\labelitemiv{$\cdot$}
+
+\def\verse{\let\\=\@centercr  
+ \list{}{\itemsep\z@ \itemindent -1.5em\listparindent \itemindent 
+ \rightmargin\leftmargin\advance\leftmargin 1.5em}\item[]}
+\let\endverse\endlist
+
+\def\quotation{\list{}{\listparindent 1.5em
+ \itemindent\listparindent
+ \rightmargin\leftmargin\parsep 0pt plus 1pt}\item[]
+ \linespacing{1}}
+\let\endquotation=\endlist
+
+\def\quote{\list{}{\rightmargin\leftmargin}\item[]
+ \linespacing{1}}
+\let\endquote=\endlist
+
+\def\descriptionlabel#1{\hspace\labelsep \bf #1}
+\def\description{\list{}{\labelwidth\z@ \itemindent-\leftmargin
+ \let\makelabel\descriptionlabel}}
+
+\let\enddescription\endlist
+
+\newdimen\descriptionmargin
+\descriptionmargin=3em
+
+
+
+\def\@begintheorem#1#2{\list{}{\parindent \z@\rightmargin\leftmargin}
+ \item[]{\bf #1\ #2}\quad}
+\def\@opargbegintheorem#1#2#3{\list{}{\parindent \z@\rightmargin\leftmargin}
+ \item[]{\bf #1\ #2\ }{\it(#3)\/}\quad}
+\def\@endtheorem{\endlist}
+
+\def\proof{\par\noindent\trivlist\item[]{\@prooffont Proof}\quad}
+\def\endproof{\hskip .8em plus 1fill\penalty\@M\BOX\parskip \z@\par\@listi
+ \@tempdima\topsep\advance\@tempdima\parskip\vskip\@tempdima
+ \endtrivlist}
+
+\def\titlepage{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \else \newpage \fi \thispagestyle{empty}\c@page\z@}
+
+\def\endtitlepage{\if@restonecol\twocolumn \else \newpage \fi}
+
+\arraycolsep 5pt
+\tabcolsep 6pt
+\arrayrulewidth .4pt
+\doublerulesep 2pt
+
+\tabbingsep \labelsep
+
+\skip\@mpfootins = \skip\footins
+
+\fboxsep = 3pt
+\fboxrule = .4pt
+
+
+
+\newcounter{part}
+\newcounter {chapter}
+\newcounter {section}[chapter]
+\newcounter {subsection}[section]
+\newcounter {subsubsection}[subsection]
+\newcounter {paragraph}[subsubsection]
+\newcounter {subparagraph}[paragraph]
+
+\def\thepart          {\Roman{part}}
+\def\thechapter       {\arabic{chapter}}
+\def\thesection       {\thechapter.\arabic{section}}
+\def\thesubsection    {\thesection.\arabic{subsection}}
+\def\thesubsubsection {\thesubsection .\arabic{subsubsection}}
+\def\theparagraph     {\thesubsubsection.\arabic{paragraph}}
+\def\thesubparagraph  {\theparagraph.\arabic{subparagraph}}
+ 
+
+\def\@chapapp{Chapter}
+
+\def\part{\cleardoublepage
+ \thispagestyle{plain}
+ \if@twocolumn
+ \onecolumn
+ \@tempswatrue
+ \else \@tempswafalse
+ \fi
+ \hbox{}\vfil
+
+ \secdef\@part\@spart}     
+
+\def\@part[#1]#2{\ifnum \c@secnumdepth >-2\relax
+ \refstepcounter{part}
+ \addcontentsline{toc}{part}{\thepart
+ \hspace{1em}#1}\else
+ \addcontentsline{toc}{part}{#1}\fi
+ \markboth{}{}
+ {\centering
+ \ifnum \c@secnumdepth >-2\relax
+ \huge\bf Part \thepart
+ \par
+ \vskip 20pt \fi
+ \Huge \bf
+ #1\par}\@endpart}
+ 
+ 
+
+\def\@endpart{\vfil\newpage
+ \if@twoside
+ \hbox{}
+ \thispagestyle{empty}  
+ \newpage        
+ \fi
+ \if@tempswa
+ \twocolumn
+ \fi}
+
+\def\@spart#1{{\centering
+ \Huge \bf
+ #1\par}\@endpart}
+
+
+
+\def\@pnumwidth{1.55em}
+\def\@tocrmarg {2.55em plus 1fil}
+\def\@dotsep{4.5}
+\setcounter{tocdepth}{2}
+
+\def\tableofcontents{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{Contents\@mkboth{CONTENTS}{CONTENTS}}\thispagestyle{empty}
+ \@starttoc{toc}\if@restonecol\twocolumn\fi}
+
+\def\l@part#1#2{\addpenalty{-\@highpenalty}
+ \addvspace{2.25em plus 1pt}
+ \begingroup
+ \@tempdima 3em
+ \parindent \z@ \rightskip \@pnumwidth
+ \parfillskip -\@pnumwidth   
+ {\large \bf
+ \leavevmode
+ #1\hfil \hbox to\@pnumwidth{\hss #2}}\par
+ \nobreak
+ \endgroup}
+
+\def\l@chapter#1#2{\pagebreak[3] 
+ \vskip 1.0em plus 1pt
+ \@tempdima 1.5em
+ \begingroup
+ \parindent \z@ \rightskip \@pnumwidth 
+ \parfillskip -\@pnumwidth 
+ \parskip \z@
+ \large \bf
+ \leavevmode
+ \advance\leftskip\@tempdima
+ \hskip -\leftskip
+ #1\nobreak\hfil \nobreak\hbox to\@pnumwidth{\hss #2}\par
+ \endgroup}
+ 
+\def\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
+\def\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
+\def\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
+\def\l@paragraph{\@dottedtocline{4}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
+
+\def\listoffigures{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{Illustrations\@mkboth
+ {ILLUSTRATIONS}{ILLUSTRATIONS}}\thispagestyle{empty}\addcontentsline
+ {toc}{frontmatter}{\protect\numberline
+ {\hfil}List of Illustrations}\@starttoc{lof}\if@restonecol
+ \twocolumn\fi}
+
+\def\l@figure{\@dottedtocline{1}{1.5em}{2.3em}}
+
+\def\listoftables{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{Tables\@mkboth
+ {TABLES}{TABLES}}\thispagestyle{empty}\addcontentsline
+ {toc}{frontmatter}{\protect\numberline
+ {\hfil}List of Tables}\@starttoc{lot}\if@restonecol
+ \twocolumn\fi}
+
+\let\l@table\l@figure
+
+\def\l@frontmatter#1#2{\pagebreak[3]
+ \@tempdima 1.5em \begingroup
+ \parindent \z@ \rightskip \@pnumwidth 
+ \parfillskip -\@pnumwidth 
+ \leavevmode #1\hfil \hbox to\@pnumwidth{\hss #2}\par
+ \endgroup}
+
+
+
+\def\thebibliography#1{\chapter*{Bibliography\@mkboth
+ {BIBLIOGRAPHY}{BIBLIOGRAPHY}}\addcontentsline
+ {toc}{chapter}{\protect\numberline {\hfil}Bibliography}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus .03em}
+ \sloppy
+ \uchyph=1\sfcode`\.=1000\relax}
+
+\let\endthebibliography=\endlist
+
+
+
+\newif\if@restonecol
+
+\def\theindex{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
+\columnseprule \z@
+\columnsep 35pt\twocolumn[\@makeschapterhead{Index}]
+ \@mkboth{INDEX}{INDEX}\thispagestyle{plain}\parindent\z@
+ \parskip\z@ plus .3pt\relax\let\item\@idxitem}
+
+\def\@idxitem{\par\hangindent 40pt}
+
+\def\subitem{\par\hangindent 40pt \hspace*{20pt}}
+
+\def\subsubitem{\par\hangindent 40pt \hspace*{30pt}}
+
+\def\endtheindex{\if@restonecol\onecolumn\else\clearpage\fi}
+
+\def\indexspace{\par \vskip 10pt plus 5pt minus 3pt\relax}
+
+
+
+\def\footnoterule{\kern-3\p@   
+ \hrule width .25\columnwidth 
+ \kern 2.6\p@}
+
+\@addtoreset{footnote}{chapter}
+
+\long\def\@makefntext#1{\parindent 1em\noindent $^{\@thefnmark}$#1}
+
+
+
+\setcounter{topnumber}{2}
+\def\topfraction{.7}
+\setcounter{bottomnumber}{1}
+\def\bottomfraction{.3}
+\setcounter{totalnumber}{3}
+\def\textfraction{.2}
+\def\floatpagefraction{.5}
+\setcounter{dbltopnumber}{2}
+\def\dbltopfraction{.7}
+\def\dblfloatpagefraction{.5}
+
+\long\def\@makecaption#1#2{
+ \bf
+ \vskip 10pt 
+ \setbox\@tempboxa\hbox{#1: #2}
+ \ifdim \wd\@tempboxa >\hsize #1: #2\par \else \hbox
+to\hsize{\hfil\box\@tempboxa\hfil} 
+ \fi}
+
+\newcounter{figure}[chapter]
+\def\thefigure{\thechapter.\@arabic\c@figure}
+
+\def\fps@figure{tbp}
+\def\ftype@figure{1}
+\def\ext@figure{lof}
+\def\fnum@figure{Figure \thefigure}
+\def\figure{\@float{figure}}
+\let\endfigure\end@float
+\@namedef{figure*}{\@dblfloat{figure}}
+\@namedef{endfigure*}{\end@dblfloat}
+
+\newcounter{table}[chapter]
+\def\thetable{\thechapter.\@arabic\c@table}
+
+\def\fps@table{tbp}
+\def\ftype@table{2}
+\def\ext@table{lot}
+\def\fnum@table{Table \thetable}
+\def\table{\@float{table}}
+\let\endtable\end@float
+\@namedef{table*}{\@dblfloat{table}}
+\@namedef{endtable*}{\end@dblfloat}
+
+
+
+\def\maketitle{\begin{titlepage}\null\linespacing{1}\setcounter{page}{1}\vfill
+\vbox to 0pt{\vss\vbox to 8.75in{\parskip 0pt \parindent 0pt\centering
+{\large \uppercase\expandafter{\@school} \par} \vskip 0pt plus 3fil
+{\Large \bf \@title \par} \vskip 0pt plus 1.3fil
+{\large by \par} \vskip 0pt plus 1fil
+{\large \bf \@author \par} \vskip 0pt plus 3fil
+{\large \sc A Thesis Submitted \\
+in Partial Fulfillment of the \\
+Requirements for the Degree \par} \vskip 0pt plus 1.1fil
+{\large \bf \@degree \par} \vskip 0pt plus 4.5fil
+\begingroup
+
+\leftskip .5\textwidth \rightskip 0pt plus 1fil
+{\sc Approved, Thesis Committee: \par} \vskip 2.5em
+\moveright\leftskip\vbox{\hrule width \leftskip}
+\def\and{\par \vskip 2.25em minus 1em\moveright\leftskip\vbox{\hrule width \leftskip}}
+
+\@committee \par
+\endgroup \vskip 0pt plus 2fil
+{\large \@address \par} \vskip 0pt plus .8fil
+{\large \@month, \@year \par}}}\cleardoublepage
+\end{titlepage}}
+
+\newif\if@bigcommittee \@bigcommitteefalse
+
+\def\school#1{\gdef\@school{#1}}
+\def\degree#1{\gdef\@degree{#1}}
+\def\committee#1{\gdef\@committee{#1}}
+\def\bigcommittee#1{\@bigcommitteetrue\gdef\@committee{#1}}
+\def\address#1{\gdef\@address{#1}}
+\def\donemonth#1{\gdef\@month{#1}}
+\def\doneyear#1{\gdef\@year{#1}}
+
+\def\@school{Rice University}
+\def\@degree{Doctor of Philosophy}
+\def\@committee{member 1, Chairman \\ prof \and
+ member 2 \\ prof \and member 3 \\ prof}
+\def\@address{Houston, Texas}
+\def\@month{\ifcase\month ?\or January\or February\or March\or April\or
+ May\or June\or July\or August\or September\or October\or
+ November\or December\fi}
+\def\@year{\number\year}
+
+\def\abstract{\cleardoublepage \thispagestyle{empty} \global\@topnum\z@
+ \@afterindentfalse \begingroup
+ \def \baselinestretch{1} \parskip \z@ \parindent \z@ \par
+ \null \vskip .1in \centering
+ \Large \bf \@title \vskip .3in \large \@author \par
+ \vskip .5in \endgroup \section*{\hfil Abstract\hfil} \setcounter
+ {footnote}{0}\def\thefootnote{\fnsymbol{footnote}}\addcontentsline
+ {toc}{frontmatter}{\protect\numberline {\hfil}Abstract}}
+
+\def\endabstract{\setcounter{footnote}{0}}
+
+\def\acknowledge{\chapter*{Acknowledgments}\thispagestyle{empty}
+ \setcounter{footnote}{0}
+ \addcontentsline{toc}{frontmatter}{\protect\numberline
+ {\hfil}Acknowledgments}}
+
+\def\endacknowledge{\setcounter{footnote}{0}}
+
+\def\preface{\chapter*{Preface}\thispagestyle{empty}
+ \setcounter{footnote}{0}
+ \addcontentsline{toc}{frontmatter}{\protect\numberline
+ {\hfil}Preface}}
+
+\def\endpreface{\setcounter{footnote}{0}}
+
+
+
+\mark{{}{}}
+
+\if@twoside
+\def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}
+\def\@evenhead{\rm \thepage\hfil \sl \leftmark}
+\def\@oddhead{\hbox{}\sl \rightmark \hfil \rm\thepage}
+\def\chaptermark##1{\markboth {\uppercase{\ifnum \c@secnumdepth >\m@ne
+ \@chapapp\ \thechapter. \ \fi ##1}}{}}
+\def\sectionmark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\z@
+ \thesection. \ \fi ##1}}}}
+\else
+\def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}
+\def\@oddhead{\hbox {}\hfil \rm\thepage}
+\def\chaptermark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\m@ne
+ \@chapapp\ \thechapter. \ \fi ##1}}}}
+\fi
+
+\def\ps@myheadings{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\sl\rightmark \hfil \rm\thepage}
+\def\@oddfoot{}\def\@evenhead{\rm \thepage\hfil\sl\leftmark\hbox {}}
+\def\@evenfoot{}\def\chaptermark##1{}\def\sectionmark##1{}
+\def\subsectionmark##1{}}
+
+\def\BOX{\leavevmode\hbox{\setbox\@tempboxa=\vbox{M}
+ \baselineskip\z@ \lineskip\z@ \lineskiplimit\z@
+ \vbox{\vbox to \z@{\vss
+ \hrule \@height.4pt \@width\ht\@tempboxa \@depth\z@ \vss}
+ \hbox to \ht\@tempboxa{\hbox to \z@{\hss\vrule \@width .4pt \@height
+ \ht\@tempboxa \@depth \z@\hss}
+ \hfill
+ \hbox to \z@{\hss\vrule \@width .4pt \@height
+ \ht\@tempboxa \@depth \z@\hss}}
+ \vbox to \z@{\vss\hrule \@height .4pt \@width
+ \ht\@tempboxa \@depth \z@\vss}}}}
+
+
+
+\def\today{\ifcase\month\or
+ January\or February\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi
+ \space\number\day, \number\year}
+
+\@addtoreset{equation}{chapter}
+
+\def\theequation{\thechapter.\arabic{equation}}
+
+\def\linespacing#1{\def\baselinestretch{#1} \let\@tempa\@currsize
+ \let\@currsize\relax \@tempa}
+
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+ \interlinepenalty\interfootnotelinepenalty 
+ \splittopskip\footnotesep
+ \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+ \hsize\columnwidth \@parboxrestore
+ \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+ {\rule{\z@}{\footnotesep}\ignorespaces
+ #1\strut}}}
+
+\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+ \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+ \@parmoderr\@floatpenalty\z@
+ \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+ \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+ \@tfor \@tempa :=#2\do
+ {\if\@tempa h\advance\@tempcnta \@ne\fi
+ \if\@tempa t\advance\@tempcnta \tw@\fi
+ \if\@tempa b\advance\@tempcnta 4\relax\fi
+ \if\@tempa p\advance\@tempcnta 8\relax\fi
+ }\global\count\@currbox\@tempcnta}\@fltovf\fi
+ \global\setbox\@currbox\vbox\bgroup
+
+ \linespacing{1}\hsize\columnwidth \@parboxrestore}
+
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+ \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{claim}{Claim}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+
+
+
+\def\@addtotoporbot{
+ \@tempcntb-\outputpenalty\advance\@tempcntb-\@Mii
+ \ifcase\@tempcntb
+ \@addtobot\or
+ \@addtobot\or
+ \@addtobot\else
+ \@tempcnta\count\@currbox \divide\@tempcnta\tw@
+ \ifodd\@tempcnta \ifnum \@topnum >\z@ \ifdim\@toproom >\ht\@currbox
+ \@bitor\@currtype{\@midlist\@botlist}\if@test\else
+ \global\advance\@topnum\m@ne 
+ \global\advance\@colnum\m@ne 
+ \@tempdima-\ht\@currbox
+ \advance\@tempdima 
+ -\ifx\@toplist\@empty \textfloatsep \else\floatsep\fi
+ \global\advance\@toproom \@tempdima
+ \global\advance\@colroom \@tempdima
+ \@cons\@toplist\@currbox
+ \@inserttrue
+ \fi\fi\fi\fi
+ \if@insert\else\@addtobot \fi\fi}
+
+\def\@makecol{\setbox\@outputbox\box\@cclv
+ \xdef\@freelist{\@freelist\@midlist}\gdef\@midlist{}\@combinefloats
+ \ifvoid\footins\else\setbox\@outputbox\vbox
+ {\unvbox\@outputbox\vskip\skip\footins\footnoterule\unvbox\footins}\fi
+ \setbox\@outputbox\vbox to\@colht{\boxmaxdepth\maxdepth
+ \@texttop\unvbox\@outputbox \@textbottom}\global\maxdepth\@maxdepth}
+
+
+
+\itemsep \z@
+\parsep \z@
+\topsep \z@
+
+\uchyph=0
+
+\clubpenalty=10000
+\widowpenalty=10000
+
+\ps@headings
+\onecolumn
+\if@twoside\else\raggedbottom\fi
+
+\let\true@chapter=\@chapter
+\def\@chapter{\pagenumbering{arabic}\def\thefootnote{\arabic{footnote}}
+\let\@chapter=\true@chapter
+\true@chapter}
+
+\pagenumbering{roman}
+\def\thefootnote{\fnsymbol{footnote}}
+
+%%Never mind the upper right corner
+%\let\ps@plain\ps@headings

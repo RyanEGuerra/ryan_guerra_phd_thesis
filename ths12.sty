@@ -1,0 +1,234 @@
+% Rice University thesis macros:  12pt "option"
+
+% This file is a modified version of rep12.sty (rep12.doc) 19-Jan-88,
+% originally by Leslie Lamport.  The changes were originally implemented by
+% Dave Johnson in the form of a style option.  I have taken the liberty of
+% creating an entirely separate document style, because I feel that is
+% cleaner and really not that hard.
+
+% All this mashing and munging has been done by William LeFebvre of
+% Rice University Computer Science.
+
+% THESIS DOCUMENT STYLE -- 19 April 89
+% Taken from REPORT document style
+%    for LaTeX version 2.09
+% Copyright (C) 1988 by Leslie Lamport
+
+\lineskip 1pt
+\normallineskip 1pt
+\def\baselinestretch{1.2}
+
+\def\@normalsize{\@setsize\normalsize{14.5pt}\xiipt\@xiipt
+\abovedisplayskip 12pt plus3pt minus7pt
+\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip  \z@ plus3pt
+\belowdisplayshortskip  6.5pt plus3.5pt minus3pt
+\let\@listi\@listI}
+
+\def\small{\@setsize\small{13.6pt}\xipt\@xipt
+\abovedisplayskip 11pt plus3pt minus6pt
+\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip  \z@ plus3pt
+\belowdisplayshortskip  6.5pt plus3.5pt minus3pt
+\def\@listi{\leftmargin\leftmargini
+\parsep 4.5pt plus 2pt minus 1pt
+ \itemsep \parsep
+ \topsep 9pt plus 3pt minus 5pt}}
+
+\def\footnotesize{\@setsize\footnotesize{12pt}\xpt\@xpt
+\abovedisplayskip 10pt plus2pt minus5pt
+\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip  \z@ plus3pt
+\belowdisplayshortskip  6pt plus3pt minus3pt
+\def\@listi{\leftmargin\leftmargini
+\topsep 6pt plus 2pt minus 2pt\parsep 3pt plus 2pt minus 1pt
+\itemsep \parsep}}
+
+\def\scriptsize{\@setsize\scriptsize{9.5pt}\viiipt\@viiipt}
+\def\tiny{\@setsize\tiny{7pt}\vipt\@vipt}
+\def\large{\@setsize\large{18pt}\xivpt\@xivpt}
+\def\Large{\@setsize\Large{22pt}\xviipt\@xviipt}
+\def\LARGE{\@setsize\LARGE{25pt}\xxpt\@xxpt}
+\def\huge{\@setsize\huge{30pt}\xxvpt\@xxvpt}
+\let\Huge=\huge
+
+\normalsize
+
+
+
+\if@twoside
+ \oddsidemargin 21pt
+ \evensidemargin 59pt
+ \marginparwidth 85pt
+\else
+ \oddsidemargin .5in
+ \evensidemargin 0in
+ \marginparwidth .8in
+\fi
+\marginparsep .1in
+
+\advance\oddsidemargin -.0625in \advance\evensidemargin -.0625in
+
+\topmargin 0in
+
+\headheight \baselineskip
+\headsep 1.5\baselineskip
+
+%%My fix for the bottom-center page numbering - Psycho.
+
+\footheight \baselineskip
+\footskip 2.5\baselineskip
+
+\textheight 9in
+\advance\textheight -\headheight
+\advance\textheight -\headsep
+\textwidth 6in
+
+\columnsep 10pt
+\columnseprule 0pt
+
+\footnotesep 11.4pt
+
+\skip\footins 18pt plus 12pt minus 6pt
+
+\floatsep 24pt plus 6pt minus 6pt
+
+\textfloatsep 36pt plus 10pt minus 10pt
+
+\intextsep 24pt plus 6pt minus 6pt
+
+\@maxsep \textfloatsep
+
+\dblfloatsep 24pt plus 6pt minus 6pt
+
+\dbltextfloatsep 36pt plus 10pt minus 10pt
+
+\@dblmaxsep \dbltextfloatsep
+
+\@fptop 0pt plus 1fil
+
+\@fpsep 10pt plus 2fil
+\@fpbot 0pt plus 1fil
+
+\@dblfptop 0pt plus 1fil
+\@dblfpsep 10pt plus 2fil
+\@dblfpbot 0pt plus 1fil
+
+\marginparpush 7pt
+
+
+
+\parskip .5pt plus .5pt minus .5pt
+\parindent 1.5em
+
+\partopsep 3pt plus 2pt minus 2pt
+
+\@lowpenalty   51
+\@medpenalty  151
+\@highpenalty 301
+
+\@beginparpenalty -\@lowpenalty
+\@endparpenalty   -\@lowpenalty
+\@itempenalty     -\@lowpenalty
+
+
+
+\def\@makechapterhead#1{\begingroup
+ \def \baselinestretch{1} \parskip \z@ \parindent \z@ \par
+ \Large\bf \null \vskip 1.5ex \centering
+ \ifnum \c@secnumdepth >\m@ne \@chapapp~\thechapter \vskip 3.5ex \fi
+ #1 \vskip 3ex plus .2ex\endgroup}
+
+\def\@makeschapterhead#1{\begingroup
+ \def \baselinestretch{1} \parskip \z@ \parindent \z@ \par
+ \null \vskip .3in \centering
+ \Large \bf #1\par \endgroup \nobreak \vskip .6in\relax}
+
+\def\chapter{\cleardoublepage
+ \thispagestyle{empty}
+ \global\@topnum\z@
+ \@afterindentfalse
+ \secdef\@chapter\@schapter}
+
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+ \refstepcounter{chapter}
+ \typeout{\@chapapp\space\thechapter.}
+ \addcontentsline{toc}{chapter}{\protect
+ \numberline{\thechapter}#1}\else
+ \addcontentsline{toc}{chapter}{#1}\fi
+ \chaptermark{#1}
+ \addtocontents{lof}{\protect\addvspace{\baselineskip}}
+ \addtocontents{lot}{\protect\addvspace{\baselineskip}}
+ \if@twocolumn
+ \@topnewpage[\@makechapterhead{#2}]  
+ \else \@makechapterhead{#2}
+ \@afterheading
+ \fi}
+
+\def\@schapter#1{\if@twocolumn \@topnewpage[\@makeschapterhead{#1}]
+ \else \@makeschapterhead{#1} 
+ \@afterheading\fi}
+
+\def\section{\@startsection{section}{1}{\z@}{-3.25ex plus -1ex minus 
+ -.2ex}{1.5ex plus .2ex}{\large\bf}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{-3.25ex plus -1ex minus 
+ -.2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-3.25ex plus 
+ -1ex minus -.2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\paragraph{\@startsection
+ {paragraph}{4}{\z@}{3.25ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+\def\subparagraph{\@startsection
+ {subparagraph}{4}{\parindent}{3.25ex plus 1ex minus 
+ .2ex}{-1em}{\normalsize\bf}}
+
+\def\chaptermark#1{}
+
+\setcounter{secnumdepth}{2}
+
+\def\appendix{\par
+ \setcounter{chapter}{0}
+ \setcounter{section}{0}
+ \def\@chapapp{Appendix}
+ \def\thechapter{\Alph{chapter}}}
+
+
+
+\leftmargini 2.5em
+\leftmarginii 2.2em
+\leftmarginiii 1.87em
+\leftmarginiv 1.7em
+\leftmarginv 1em
+\leftmarginvi 1em
+
+\leftmargin\leftmargini
+\labelsep .5em
+\labelwidth\leftmargini\advance\labelwidth-\labelsep
+
+\def\@listI{\leftmargin\leftmargini \parsep 5pt plus 2.5pt minus 1pt
+\topsep 10pt plus 4pt minus 6pt
+\itemsep 5pt plus 2.5pt minus 1pt}
+
+\let\@listi\@listI
+\@listi 
+
+\def\@listii{\leftmargin\leftmarginii
+ \labelwidth\leftmarginii\advance\labelwidth-\labelsep
+ \topsep 5pt plus 2.5pt minus 1pt
+ \parsep 2.5pt plus 1pt minus 1pt
+ \itemsep \parsep}
+
+\def\@listiii{\leftmargin\leftmarginiii
+ \labelwidth\leftmarginiii\advance\labelwidth-\labelsep
+ \topsep 2.5pt plus 1pt minus 1pt 
+ \parsep \z@ \partopsep 1pt plus 0pt minus 1pt
+ \itemsep \topsep}
+
+\def\@listiv{\leftmargin\leftmarginiv
+ \labelwidth\leftmarginiv\advance\labelwidth-\labelsep}
+
+\def\@listv{\leftmargin\leftmarginv
+ \labelwidth\leftmarginv\advance\labelwidth-\labelsep}
+
+\def\@listvi{\leftmargin\leftmarginvi
+ \labelwidth\leftmarginvi\advance\labelwidth-\labelsep}
+

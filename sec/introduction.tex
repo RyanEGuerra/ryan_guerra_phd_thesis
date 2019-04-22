@@ -1,0 +1,57 @@
+\section{Thesis Motivation}
+\label{sec_introduction}
+
+IEEE 802.11, or ``Wi-Fi'' is one of the most successful technologies in the world.
+	As of today, the global installed base of 802.11-powered wireless devices has grown past 9.5~billion units, with over 3~billion wireless sensors, phones, computers, and other connected devices shipping each year\cite{wifi2018installed}.
+	This large and vibrant device ecosystem was enabled by the establishment of the unlicensed \ac{ISM} wireless bands in 1985, unleashing decades of rapid wireless technology innovation.
+	
+	We saw a similar dynamic playing out when in 2012 the switch to digital broadcast television from analog broadcasts released hundreds of megahertz of valuable radio spectrum in the VHF and UHF frequency bands for 802.11-like unlicensed purposes \cite{fcc2010second, fcc2012third, fcc2015ro}.
+	Known for their excellent propagation characteristics \cite{flores2013ieee80211af, stone1997nist}, these \acf{TVWS} frequencies between 54~MHz to 608~MHz in the United States and 470~MHz to 790~MHz in Europe may now be used by \emph{unlicensed} secondary devices in the many locations where primary television broadcasters are not operating.
+
+	However, there are significant implementation challenges for \ac{TVWS} networks and devices if they are to meet the performance and user experience targets of today's multi-gigabit 802.11 systems.
+	Practical \ac{TVWS} channel availability is limited in many locations and in most cases the available channels are non-contiguous.
+	Without the ability to practically bond the dozens of 6~MHz \ac{TVWS} channels that would be needed to match the performance of wide 80+80~MHz channels in 802.11ac/ax \ac{ISM} bands, it instead becomes necessary to focus on utilizing the available radio spectrum with high spectral efficiency.
+
+	In this, we are in luck; advancements in radio technology now allow us to create highly flexible and agile \acf{SDR} systems that adapt center frequency and waveform easily to match the local RF landscape and regulatory limitations.
+	Cognitive radio technologies allow systems to dynamically detect and share scarce radio resources with other systems for optimal radio spectrum utilization.
+	In addition, the computational and system complexity of large-scale \ac{MU-MIMO} beamforming can now be addressed with modern radio design and computational platforms, allowing us to increase the capacity of wireless systems along the complementary axis of spatial multiplexing, rather than just increasing channel bandwidth.
+	
+	As we demonstrate, serious system limitations exist both in hardware design and protocol design that limit the amount of spatial diversity that \ac{TVWS} radio systems can practically leverage.		
+	Therefore, we seek to design new \ac{TVWS} radio systems that can realize the promise of new ``low-band'' unlicensed radio spectrum and bring the \ac{TVWS} opportunity to fruition.
+	
+			\ac{TVWS} systems represent an opportunity to provide 802.11-like connectivity on an unprecedented scale, reaching new environments and applications that can not be efficiently served with standard 802.11ac/ax.
+			For the purposes of this thesis, we consider ``large-scale'' to have two meanings: first, we wish to design wireless systems that can provide high-speed connectivity on the campus or city-scale distances typically associated with television broadcasters but out of reach for other 802.11 systems; second, we wish to design systems that highly leverage spatial multiplexing, scaling the number of spatial streams beyond the $4\times 4$ or $8\times 8$ numbers seen in 802.11ac/ax standards, in order to increase the throughput performance of 802.11af \ac{TVWS} system on part with other 802.11 standards.
+
+\section{Thesis Contributions}
+\label{sec_contributions}
+
+In this thesis, we develop the tools and understanding necessary to design, implement, and evaluate large-scale and high-speed wireless networks utilizing \ac{TVWS} radio spectrum.
+
+	We start in Chapter~\ref{sec_background_chapter} with a discussion of necessary background information useful as context, as well as an introduction to the notation used throughout this thesis.
+
+	Chapter~\ref{sec_wurc} presents the design, implementation, and testing of a flexible software-defined radio platform that implements 802.11af and \ac{MU-MIMO} beamforming in a custom hardware platform that we design and manufacture.
+	In order to realize this new platform, we develop solutions to multiple physical layer challenges:
+\begin{itemize}
+	\item We design and test several iterations of \ac{WURC}, a new agile \ac{SDR} platform with an operational frequency range of 50 - 3800~MHz, and integrate it with WARPv3 to create the most agile MU-MIMO SDR platform at the time with range from 50 - 5800~MHz,
+	%\item We develop analog calibration algorithms suited for tuning agile \acp{SDR} with wide operational bandwidths, 
+	\item We design and test power transfer impedance matching circuits for \ac{TVWS} with over 40\% bandwidth using numerical circuit synthesis and optimization techniques,
+	\item We design a generic fast automatic gain control for \acp{SDR} that avoids utilizing external power estimation components and still meets strict 802.11 timing constraints,
+	\item We design an extensive library of software drivers and logic blocks that enable both real-time 802.11ac/af-like communication on our \ac{SDR} platform as well as the ability to scale operation to 8x8 802.11ac/af-like MU-MIMO,
+	\item We design, implement, and test several methods for reference clock sharing between remote coherent radios heads in a live hardware system for scalable many-antenna \ac{MIMO}.
+\end{itemize}
+	When taken together, our system design contributions constitute the development of the world's first open-source software-defined \ac{MU-MIMO} \ac{TVWS} testbed.
+	We have made the design files for all \ac{WURC} \acp{PCB} available open-source \cite{guerra2012wurc_pcb}.
+	
+	In Chapter~\ref{sec_env_study_chapter}, we leverage our new \ac{MU-MIMO} platform to perform a comprehensive series of environmental measurement studies of indoor and outdoor \ac{MU-MIMO} channels in various static and mobile scenarios in unlicensed and \ac{ISM} bands from 470 - 5800~MHz.
+	We first start with an early study of a prototype \ac{SISO} \ac{TVWS} network that we installed in a Houston neighborhood.
+	As the first residential \ac{TVWS} network deployed, we are able to confirm the superior propagation performance of 802.11af systems while exposing serious platform and system-level limitations.
+	
+	We then proceed to utilize our newly developed \ac{TVWS} \ac{SDR} system from Chapter~\ref{sec_wurc} and perform the first study of \ac{MU-MIMO} \ac{TVWS} channel dynamics, finding that spatial diversity is preserved in \ac{TVWS} channels while system temporal dynamics are much improved compared to higher-frequency \ac{ISM} bands.
+
+	In Chapter~\ref{sec_protocols_chapter}, we present the design and analysis of an opportunistic channel sounding protocol for 802.11af-like systems that increases spectral efficiency by two orders of magnitude over \ac{SISO} systems.
+	For this design, we leverage the advantageous temporal dynamics of \ac{TVWS} observed in our measurement studies in order to opportunistically estimate \ac{CSI} information using implicit feedback from control and data packets already on the air.
+	This design allows \ac{TVWS} multi-user beamforming systems to scale the number of simultaneous data streams while mitigating the channel sounding overhead incurred by the 802.11af protocol when estimating channel state information.
+	
+	Chapter~\ref{sec_related_chapter} reviews and compares the current literature in related fields, providing additional context for those readers wishing to learn more.
+	
+	Finally, Chapter~\ref{sec_conclusion_chapter} concludes this thesis with a discussion of our findings and some future directions to take \ac{TVWS} and \ac{MU-MIMO} systems.

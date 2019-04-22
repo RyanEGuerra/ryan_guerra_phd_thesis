@@ -1,0 +1,218 @@
+%###############################################################################
+%###############################################################################
+
+\section{Software-Defined Radio Platforms}
+\label{sec_related_sdr}
+
+	A number of common development platforms are capable of some degree of frequency-agility and programmability, e.g., \cite{yan2008spectrum, tan2011sora, nguyen2015leveraging}.
+	However, these platforms are generally limited to either narrow-bandwidth applications when used for real-time applications or lack the open hardware and software stack required for research. None of them contain high-power amplifiers for long-range experiments.
+	The form-factor currently required for real-time operation of platforms performing \ac{DSP} operations on a \ac{CPU} \cite{yan2008spectrum, tan2011sora} becomes a limitation when measuring wideband channel statistics for long periods of time with high temporal granularity, as such experiments often require many mobile user nodes.
+
+	Furthermore, existing systems do not integrate all components (specifically, a high-power analog front-end or highly dynamic \ac{AGC} subsystem) necessary for high-bandwidth, long-range experiments.
+	Off-the-shelf UHF amplifiers often are not designed for frequency-flat, wideband operation between 470-698~MHz and their size and external power requirements further hinder the mobility of multiple radio nodes.
+	
+	An agile flexible RF front-end was developed for the USRP \cite{hasan2010wideband}, but lacked amplification and system integration that would allow it to be used in \ac{MU-MIMO} applications.
+
+	\ac{WURC} is designed to work interchangeably with any digital baseband and only draws power from the expansion card slot available on most FPGA development boards while integrating the remaining components necessary for a high-powered wideband transceiver.
+	In combination with \ac{WURC}, the \ac{WARP} digital baseband platform contains a complete real-time layer 2 network stack and large experimental log storage capabilities (2~GB DDR3 RAM) within a small form-factor board, making it feasible to build and deploy a large number of wireless, mobile nodes for UHF \ac{MU-MIMO} experiments.
+	
+	\textbf{Real-Time SDR Software Frameworks.}
+	Several real-time \ac{SDR} design frameworks have been designed in recent years attempting to increase the ease of programming platforms like WARPv3 while still achieving low-latency performance required for standards-based interoperability.
+	Ziria is a \ac{DSL} that abstracts \ac{PHY} operations with a high-level coding language while still maintaining fast, pipelines data processing operations that enable real-time 802.11a/g demonstration \cite{stewart2015ziria}.
+	Tick is another \ac{SDR} software framework that demonstrated over-the-air 2x2 802.11ac \ac{MIMO} operation that aims to tightly-couple digital signal processing flows in order to ensure low-latency \cite{stewart2015ziria}.
+	Both Ziria and Tick, as well as other high-level software-based \ac{SDR} design frameworks like Microsoft's SORA \cite{tan2011sora}, are actually quite complementary to the work presented in this thesis.
+	As a self-contained \ac{SDR} front-end hardware platform, many of the low-layer \ac{PHY} solutions (\emph{e.g.} gain control, broadband matching) we developed for \ac{WURC} could be used within these frameworks; or similarly, the frameworks could be ported to use \ac{WURC} hardware.
+	This would allow them to achieve at least 8x4 \ac{MU-MIMO} operation in UHF bands, provided the software frameworks could be optimized to support it.
+	
+	\textbf{Frequency-Translation Platforms.}
+		Prototype \ac{TVWS} equipment became available to the academic community in 2007 with the KNOWS platform from Microsoft \cite{narlanka2007hardware, yuan2007knows, bahl2009white}.
+	Consisting of a programmable spectrum analyzer and a frequency translator for a 802.11g radio, the KNOWS platform was able communicate using the 802.11 \ac{MAC} and \ac{PHY} layer over \ac{TVWS} channels.
+	We initially planned the SISO deployment in Section~\ref{sec_siso_tvws} assuming we would use the KNOWS platform, but found that the platform suffered from a severely under-provisioned power supply and had limited dynamic range.
+	This led us to design and implement our own frequency-translation platform as discussed in Section~\ref{sec_freq_xlator_platform}.
+
+
+%###############################################################################
+%###############################################################################
+\section{Large-Scale \ac{MIMO} Systems}
+\label{sec_related_mimo}
+
+% Network MIMO and Clocking
+\textbf{Distributed and Network \ac{MIMO} (CoMP)}
+
+	\ac{CoMP} will be one of the more advanced technologies supported by next-generation cellular standards, yet much works remains to optimize its performance and to design systems and algorithms that can meet the stringent timing requirements of \ac{JT}-\ac{CoMP} required for maximizing performance \cite{ali2014evolution, cui2014evolution}.
+	
+	Jungnickel et. al. derive a close-form bound for the mean \ac{SIR} for $2\times 2$ zero-forcing from two coordinated transmitters in time-invariant Rayleigh fading channels with the presence of carrier frequency offset \cite{jungnickel2008synchronization},
+\begin{equation}
+\text{SIR} \geqslant \frac{\epsilon^2}{1-\cos\big((\phi_2 - \phi_1) t\big)}+2 \approx 2\bigg(\frac{\epsilon^2}{\big((\phi_2 - \phi_1) t\big)^2}+1\bigg),
+\end{equation}
+where $\phi_2$ and $\phi_1$ are the respective carrier frequencies, $\epsilon$ is a transmit power constant, and $t$ is the time between channel estimation and joint transmission.
+	With a 5~ms delay, the reported frequency offset between coordinated nodes must be less than 3~ppb at 2.6~GHz.
+	We discuss our disagreement with their conclusion that RF reference syntonization is not required in Section~\ref{sec_comp_alts}.
+	
+	A simulated comparison of many-antenna \ac{MIMO} with \ac{ZFBF} vs. \ac{JT}-\ac{CoMP} indicated that given the same amount of spatial resources and radio equipment, a many-antenna system outperformed \ac{JT}-\ac{CoMP} \cite{hosseini2014large}, where the gain appears to be due to the statistical channel averaging effects of having a large number of co-located antennas.
+	
+	A simulator that investigated vehicular mobility in \ac{CoMP} networks using \ac{ZFBF} and conjugate \ac{MUBF} (or ``matched filter'') was developed by Kela et. al. \cite{kela2015borderless}, demonstrating that \ac{ZFBF} performance starts to degrade when vehicular speed increase beyond 10~km/hr due to the increased interference from stale \ac{CSI}.
+	These observations are in line with our observations in real-world conditions and provides an excellent tool for testing new approaches to handling mobility, such as adaptive beamforming.
+	
+	More recently, researchers have tackled the complex problem of joint user scheduling and beamforming under fairness constraints in \ac{CoMP} networks \cite{liu2018load}, providing means to improve the user experience in \ac{CoMP} networks.
+	
+	These theoretical results are promising in terms of user performance, and motivate the need for large-scale physical testbeds for testing and validation, which this thesis addresses.
+
+% Massive MIMO Systems
+\subsection{Many-Antenna MIMO Systems}
+\label{sec_related_mami}
+
+	Previous work has addressed the scalability of many-antenna array reciprocity calibration enabling implicit \ac{CSI} estimation \cite{shepard2012argos, rogalin2014scalable}, and over-the-air user synchronization \cite{shepard2015faros}, providing the groundwork from which our scalable real-time system can be constructed.
+
+\textbf{Massive-MIMO Measurement Studies.}
+	Several environmental studies of many-antenna multi-user beamforming systems performed at frequencies above 1~GHz are complementary to our work and deserve to be listed here for readers interested .
+	Lund University has prototyped several generations of many-antenna prototypes and investigated indoor \ac{MU-MIMO} channel properties \cite{kolmonen2010measurement}, outdoor channel properties \cite{gao2011linear, payami2012channel, molisch2014propagation, gao2015massive}, and outdoor user separation \cite{flordelis2015spatial}.
+	These studies compare empirical studies for many-antenna systems in real-world environments and compare to theoretical channel modeling results, demonstrating the viability of many-antenna systems.
+
+Aalborg University researcher performed a series of many-antenna measurements using different array topologies and locations with 64 elements, demonstrating that widening the aperature between antennas is generally beneficial \cite{martinez2014towards} and justifying our distributed clocking design is Section~\ref{sec_clk_sfp}.
+
+Our collaborators at Rice University have published a series of indoor, outdoor, mobile and stationary many-antenna channel measurements that \cite{shepard2012argos, shepard2013practical, shepard2013argosv2, shepard2015faros, everett2015measurement}.
+	This thesis extends their investigations to sub-1~GHz channels where we experimentally validate superior temporal channel stability.
+	
+	A large-scale channel sounder with 96 elements at 2~GHz was also used to report on indoor channel properties at NTT \cite{kataoka2014performance}, demonstrating interference benefits from utilizing high-order beamforming.
+	
+	Alcatel-Lucent utilized an ingenious synthetic 112-element antenna array at 2.6~GHz with a fixed reference antenna to perform large-scale outdoor channel sounding \cite{hoydis2012channel}, demonstrating many-antenna capacity improvement results that support theoretical results.
+
+
+%\textbf{UHF-Band Channel Modeling.} Rice University \cite{anand2014case, guerra2016opportunistic}, Others \cite{daly2015measured, willink2013limits, czink2009spatial}
+
+%\textbf{Multi-User Selection.} SUS \cite{mao2012sus}, OMUS \cite{wang2008user}, Theory \cite{goldsmith2006zf}
+%\textbf{Spatial and Polarization Diversity.} \cite{anreddy2006capacity, valenzuela2006role}
+
+\textbf{Many-Antenna Theory.}
+	Thomas Marzetta is considered the ``father'' of many-antenna \ac{MIMO} based on his seminal paper that uses i.i.d. Weinert and Rayleigh models to model the theoretical properties of large-scale \ac{MIMO} systems when the number of antennas goes to infinity \cite{marzetta2010noncooperative}.
+	However, real-world \ac{MIMO} channels are not i.i.d., resulting in a large difference in performance between different environments and equipment configurations \cite{yang2013performance}.
+	In general, many-antenna experimental work shows a large gap between real-world performance and the theoretical upper bound using i.i.d. channels \cite{larsson2014massive}.
+
+\textbf{Lund Massive-MIMO.}
+A large series of outdoor measurements with dual-polarized 128-element circular and linear antenna arrays were performed by Lund University at 2.6 GHz \cite{gao2015massive}.
+Key results included statistical models used to tune stochastic spatial channel models for many-antenna systems \cite{molisch2014propagation} as well as results suggesting strong user separability for \ac{NLoS} channel over \ac{LoS} channels \cite{flordelis2015spatial}.
+
+Additional measurements in an indoor environment were performed at 5.3 GHz with a 30$\times$30 \ac{MIMO} channel sounder with a circular antenna array demonstrating the possibility that indoor multi-user channels could be highly-correlated when \ac{LoS} conditions or dominant reflectors existed \cite{kolmonen2010measurement}.
+
+\textbf{Aalborg University 5.8~GHz Measurements.}
+A series of indoor \ac{LoS} and \ac{NLoS} measurements of a 64-element 5.8~GHz switched antenna array \cite{martinez2014towards} was performed at Aalborg University, demonstrating the need for large aperature size, and the limited ability to scale capacity by solely increasing $M$ without also increasing spatial separation.
+
+\textbf{Alcatel-Lucent Virtual Array.}
+A virtual channel measurement technique relying on a single stationary reference antenna and a small rotating antenna array was used to emulate a virtual dual-polarized 112-element circular array by Alcatel-Lucent at 2.6 GHz \cite{hoydis2012channel}.
+	When 8 \acp{UE} were used, theoretical channel capacity approached 80 b/s/Hz using \ac{MMSE} beamforming, while conjugate beamforming saturated at less than 20\% of optimal and \ac{ZFBF} was not considered (though we would expect it to perform only slightly worse than \ac{MMSE}).
+	Large capacity gaps on the order of 10-20 b/s/Hz were present compared to i.i.d. channel models.
+
+\textbf{Rice Argos.}
+A prototype massive-MIMO base station with 64 elements and later 96 elements was developed by Rice University for 2.45 and 5.8 GHz operation. Both indoor multi-user measurements \cite{shepard2012argos, shepard2013argosv2, shepard2013practical} and outdoor multi-user measurements \cite{everett2015measurement} were made. Theoretical performance up to 85 b/s/Hz performance with 15 \acp{UE} and 64 \ac{BTS} antenna elements was demonstrated with \ac{ZFBF}.
+Key results were the design of a scalable synchronization and backplane architecture \cite{shepard2012argos} and comparison of conjugate vs. zero-forcing beamforming performance \cite{shepard2013practical}.
+
+\textbf{NTT DoCoMo.}
+A channel sounder was used with a 96-element array by NTT DoCoMo at 2.2 GHz demonstrating rich urban multipath reflections in an urban Japanese environment as well as a tradeoff between beamforming gain power and interference from poor antenna paths \cite{kataoka2014performance}.
+
+\textbf{CSIRO NGARA.}
+A large-scale rural hardware demonstrator utilizing 32 \ac{BTS} antennas and 18 \acp{UE} demonstrated achievable rates of 20 b/s/Hz in outdoor demonstrations and 67 b/s/Hz in an indoor lab environment \cite{suzuki2012highly, suzuki2012large}.
+	While this is technically the first-known demonstration of the type of large-scale UHF-band rural system proposed in this paper, few conclusions can be drawn in terms of scalability from the data currently published on this platform and all nodes were stationary.
+	We complement their results by releasing fixed and mobile multi-user channel data designed around an open-source \ac{SDR} platform.
+	
+%###############################################################################
+%###############################################################################
+
+\section{UHF Band Characterization}
+\label{sec_related_uhf}
+
+\textbf{MU-MIMO 2.4/5~GHz Characterization.}
+	While previous work emphasizes the importance of channel coherence time for \ac{MU-MIMO} systems \cite{aryafar2010design} and theoretical results suggest that center frequency is directly related to channel coherence time \cite{rappaport1996wireless}, these works do not provide the information necessary to perform a comparison based on center frequency.
+	Such an investigation is necessary as \ac{MU-MIMO} theoretical models for UHF and 2.4/5~GHz WiFi bands are parametrized for different environments (outdoor and indoor respectively).
+	Models suggest that UHF band MU-MIMO exhibits increased temporal correlation  at the cost of \textit{increased} spatial correlation compared to 2.4/5~GHz WiFi (which would be detrimental to \ac{MU-MIMO} due to the difficulty in providing orthogonal streams to the user \cite{aryafar2010design}).
+	However, we show that this tradeoff is not a result of the frequency band; instead, it is a result of the transmission environment.  
+	Thus, this discrepancy is not an inherent flaw to existing MU-MIMO channel models; rather, it is a result of incomplete parametrization and comparison of the MU-MIMO channel for all band/environment combinations.
+
+
+\textbf{SISO UHF Characterization.}
+	Several works explore the propagation characteristics of UHF transmissions in a variety of environments and topologies, e.g., \cite{hampton2005propagation, pham2007study, ying2013exploring}. 
+	These works exhaustively analyze the performance of packetized UHF transmissions through different materials and in various environments.
+	However, they focus on single-antenna, single-user transmissions  and thus the characterization is restricted to metrics such as path loss, delay profile, and attenuation through materials.
+	In contrast, our work focuses on the aggregate effects of these metrics with respect to \ac{MU-MIMO} transmissions, namely temporal and spatial correlation in outdoor and indoor environments between multiple \acp{STA}.
+	Additionally, our work is able to leverage our unique agile \ac{SDR} platform to compare these characteristics to 2.4/5~GHz \ac{ISM} bands where \ac{MU-MIMO} techniques are used prevalently.  
+
+
+\textbf{SISO UHF Availability.}
+	A series of studies were performance when \ac{TVWS} radio spectrum was first released that utilized \ac{FCC} transmitter databases and terrain data to estimate how many \ac{TVWS} channels were available for secondary use across the United States \cite{mishra2009much, mishra2010much}.
+	In addition, this same data was used to estimate the amount of capacity, based on \ac{SISO} transmission methods, would be available based on the relationship between where the radio spectrum was available and where the users actually were expected to be \cite{harrison2010much}.
+	These studies are excellent modeling studies that demonstrated the value of making additional unlicensed low-frequency radio spectrum available.
+
+\textbf{MIMO UHF Characterization.}
+	Other works exhaustively characterize MIMO transmissions in the UHF band \cite{boyer2007mimo, eriksson2008urban, hammons2008cooperative, jung2011multipath, parviainen2009experimental}.
+	However, they focus on outdoor, \emph{single-user} MIMO transmissions and thus focus on point to point transmissions  with a single transmitter/receiver pair, each equipped with multiple antennas.
+	While single-user and multi-user MIMO transmissions can have an equivalent number of transmit/receive antenna paths, the co-located receive antennas in the single-user case drastically reduces the variability in the temporal and spatial correlation with respect to environmental factors.
+	Thus, the usage scenario of distinct \ac{MU-MIMO} user nodes separated by some distance is not represented in the existing work.
+	Instead, our work focuses on \textit{multi-user} MIMO transmissions and specifically characterizes the effects of separated receivers.
+
+	Lastly, uplink \ac{MU-MIMO} channels were studied in the UHF-band in a rural outdoor environment
+\cite{collings2012ngara, suzuki2012large}. 
+	In contrast, we focus on downlink transmissions, consider both indoor and urban outdoor environments and provide channel characterization and spatial correlation of groups of users. 
+	Additionally, we evaluate \textit{both} UHF and 2.4/5~GHz band \ac{MU-MIMO} performance to comparatively characterize the performance of a UHF-band \ac{MU-MIMO} system and provide an open-source platform.
+	
+	A large-scale \ac{TVWS} demonstration was performed in rural Australia in parallel with the work in this thesis which proved that large-scale \ac{MU-MIMO} was possible \cite{suzuki2012highly, suzuki2012large}; however the relative expense of the prototype system limited both the number of transmitting antennas and user terminals.
+
+
+%###############################################################################
+%###############################################################################
+\section{MU-MIMO Overhead Mitigation} 
+\label{sec_related_overhead}
+
+Managing protocol overhead is crucial for achieving multiplexing gains with \ac{MU-MIMO} transmissions and thus numerous works propose techniques that seek to lessen the impact of obtaining \ac{CSIT}.
+
+
+\textbf{Protocol Overhead Amortization.}
+ One category of work seeks to reduce \ac{CSI} overhead through the use of techniques such as frame aggregation that amortize overhead across multiple data frames.
+ For example, the authors of  \cite{Bellalta2012} develop custom frame aggregation techniques for amortizing explicit overhead in 802.11ac systems.
+ Additionally, works such as \cite{Thapa2012} concede that the overhead of \ac{CSIT} acquisition is so detrimental, that they suggest avoiding \ac{MU-MIMO} transmissions altogether.
+
+ Our protocol simulations considering both aggregation and compression in Fig.~\ref{fig:protosim_4x4} and \ref{fig:protosim_32x16} demonstrate that implicit sounding offers significant benefits while opportunistic sounding can improve even further in certain cases.
+ %Our approach leads to increased efficiency when the \ac{LAN} is operating in a regime where aggregation techniques are not useful.
+
+%While such techniques are beneficial to any wireless communication system,  they are orthogonal to \nm \ as they attempt to increase \ac{MU-MIMO} performance though the \textit{relative} reduction of the sounding overhead's impact as opposed to overhead elimination.
+%The necessity of \nm 's overhead removal mechanism is apparent when operating in conditions where queues are not fully backlogged and the existence of short data transmissions results in the throttling of \ac{MU-MIMO} performance (see Fig.~\ref{fig:frozenThroughput} for the relative difference between \nm \ and 802.11ac throughput at lower aggregation rates).
+
+\textbf{Channel Sounding Suppression.} 
+ The second category of techniques seek to reduce \ac{CSI} overhead by avoiding channel sounding when possible.
+ For example, MUTE \cite{bejarano2014mute} reduces explicit sounding overhead by opportunistically sounding users when the wireless channel is free and by tracking channel variation to avoid sounding the channel unnecessarily.
+ In our work, we focus on more stable 802.11af channels and higher-order MIMO systems where it becomes feasible to avoid sounding altogether and maintain the same throughput performance as with full explicit channel sounding, while scaling well.
+ Our approach further enables \ac{ZFBF} to \acp{STA} without 802.11ac/af \ac{CSI} reporting enhancements.
+
+ AFC \cite{xie2013adaptive} proposes a protocol that allows \acp{STA} to determine their own downlink \ac{CSI} variation through the use of a ``Compression Noise'' (CNo) metric which tracks the difference in \ac{CSI} measurements over time and only requests sounding when needed.
+	We propose and analyze an alternative opportunistic approach that avoids explicit sounding altogether.
+
+%We show that the per-antenna CNo metric isn't robust to common forms of phase noise and serves as a poor metric for \nm \ re-sounding decisions.
+
+%\nm \ solves problem this by collecting \ac{CSI} from the \ac{AP}'s multiple antennas and thus allows for \mymetric \ to compare \textit{relative} phase differences between transmit and receive antenna paths, an inherently more stable method of tracking the channel as verified in Fig.~\ref{fig:differentialPhase} and validated in Fig.~\ref{fig:frozenmobility}.
+
+%Current \ac{MU-MIMO} systems rely on explicit channel sounding, which becomes unnecessary when channel estimates are obtained passively and particularly in channels with long coherence times \cite{anand2014case}.
+%\nm \ instead extracts implicit \ac{CSIT} from any uplink packet as shown in Fig.~\ref{fig:soundingDiagrams}c so that no sounding overhead is used.
+%\rgnote{I should probably adjust the figure C to show uplink estimation from data}
+
+{\bf Implicit Channel Sounding.}
+	Precoding schemes rely on \ac{CSIT} provided by the radio physical layer.
+	Previous work shows that under many conditions, the additional explicit protocol overhead \cite{anandpuma, bejarano2014mute} and \ac{CSI} feedback compression error \cite{lou2013comparison, xie2013adaptive} in explicit channel sounding can severely degrade the performance of the 802.11ac \ac{MU-MIMO} protocol.
+ A case where implicit \ac{CSI} is not only beneficial but necessary is when the number of antenna on a given wireless device grows large, such as in ``massive'' or many-antenna MIMO, where explicit sounding cannot scale efficiently \cite{shepard2012argos}. %the nascent field of
+
+	While not the first to propose implicit channel sounding, we are the first to measure the beamforming and protocol cost associated with various channel sounding techniques and to propose a completely sounding-free approach for fixed wireless systems with long coherence time.
+
+{\bf CSIT Prediction.}
+ Other work has focused on attempting to \textit{predict} CSIT  from historical measurements for adaptive modulation systems \cite{duel2007fading}.
+	When deciding when to use opportunistic \ac{CSIT} or when to fallback to other sounding modes, knowledge of the expected cost of stale CSIT is crucial.
+	Our results in Fig.~\ref{fig:outdoorRateLoss} demonstrate that beamforming degradation can vary from STA to STA based on their mobility state, therefore future work might focus on extending CSIT prediction algorithms for beamforming and sounding mode selection.
+
+
+%###############################################################################
+%###############################################################################
+\iftoggle{isready} {
+
+	\section{Future Work}
+	\label{sec_future}
+
+	\rgnote{Since I've left out all but the clocking component from my Iris platform, I want to include a brief section that hints at the further development of integrated systems that apply everything developed in this thesis.}
+
+}{}
