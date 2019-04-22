@@ -16,3 +16,11 @@ Through an extensive series of indoor and outdoor measurements using our new pla
 We leverage this new experimental insight to design an opportunistic MUBF protocol for 802.11af-like networks that can avoid all overhead associated with MUBF channel estimation by exploiting the high stability of fixed TVWS channels. We emulate this protocol based on empirical measurements and show that our opportunistic channel sounding protocol outperforms alternative 802.11af-based strategies for 4x4 or 8x4 MUBF when packets are short and modulation rates are high. For high-order MUBF like 32x16, opportunistic channel sounding outperforms all alternatives by avoiding significant overhead that scales with the degree of spatial multiplexing.
 
 Through a comprehensive end-to-end system design addressing hardware, digital, and protocol challenges with final system validation, we develop a holistic new approach for leveraging TVWS to enable very large-scale, unlicensed wireless systems with gigabit network throughput.
+
+## To Compile
+
+I used TeXnicCenter and MiKTeX for editing and compilation. Check out this repository, open the `ryan_guerra_phdthesis_top.tcp` file and compile at least three times with the LaTeX => PDF toolchain. The three times are necessary to build hyperlinks, references, and table of content components properly.
+
+A lot of packages will be installed to support this complex document, so make sure your MiKTeX installation is set to automatically downloaded needed packages.
+
+Everything is included in this repository to build the published thesis document from source, even including the signed cover page. My intention was to provide a complete example for anyone else looking to format their own thesis or similar documents. Good luck!
